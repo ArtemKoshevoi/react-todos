@@ -17,17 +17,19 @@ interface MyState {
     tasks: Array<Todo>
 }
 
-class App extends React.Component<{}, MyState>{
-  constructor(props: {}) {
+
+
+class App extends React.Component<MyProps, MyState>{
+  constructor(props: MyProps) {
     super(props);
-    // this.state = {
-    //
-    // }
+    this.state = {
+        tasks: this.props.tasks
+    }
   }
 
 
   render(): React.ReactNode {
-    const task = this.props.task.map((item, index) => {
+    const task = this.state.tasks.map((item, index) => {
       return <li key={index}>{item.name}</li>
     });
 
@@ -39,9 +41,9 @@ class App extends React.Component<{}, MyState>{
   }
 }
 
-const mapStateToProps: MyState = state => {
+const mapStateToProps = (state: MyState) => {
   return {
-    task: state.tasks
+    tasks: state.tasks
   }
 };
 
