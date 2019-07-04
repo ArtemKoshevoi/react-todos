@@ -1,38 +1,41 @@
-import {url} from "inspector";
+import * as actionTypes from './actions'
+import {Todo} from "../interfaces";
+import {Action} from "redux";
 
-interface Todo {
-  id: string,
-  name: string,
-  checked: boolean
+export interface State {
+  todos: Todo[]
 }
 
-interface MyState {
-  tasks: Array<Todo>
+export interface CustomAction extends Action {
+  payload: Todo
 }
 
-
-// let url: string = "http://localhost:3001/tasks";
-// fetch(url)
-//   .then(resp => resp.json())
-//   .then(data => {
-//     let tasks = data.map((task: MyState) => {
-//       return (
-//
-//       )
-//     })
-//   });
-
-const initialState: MyState = {
-  tasks: [
-    {id: '1', name: "222", checked: false},
-    {id: '2', name: "333", checked: false}
-  ]
+const initialState = {
+  todos: []
 };
 
-
-const rootReducer = (state = initialState) => {
+const reducer = (state: State = initialState, action: CustomAction) => {
+  const {type, payload} = action;
+  switch (type) {
+    case actionTypes.ADD_TODO:
+      const newTodo: Todo = {
+        id: Math.random().toString(),
+        name: payload.name,
+      };
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          newTodo
+        ]
+      };
+    case actionTypes.REMOVE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== payload.id)
+      };
+  }
   return state
 };
 
-
-export default rootReducer
+export default reducer
