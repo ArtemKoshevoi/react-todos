@@ -5,11 +5,13 @@ import { connect } from "react-redux";
 import * as actionTypes from '../store/actions'
 import {Todo} from "../interfaces";
 import {CustomAction, State} from "../store/reducer";
+import {Action} from "redux";
 
 interface AppProps {
   propsTodos: Array<Todo>;
   onAddedTodo(param: string): void;
   onRemovedTodo(param: string): void;
+  onGetTodos(): void;
 }
 
 interface AppState {
@@ -17,6 +19,11 @@ interface AppState {
 }
 
 class App extends React.Component<AppProps, AppState>{
+  constructor(props: AppProps) {
+    super(props);
+    props.onGetTodos();
+  }
+
   render(): React.ReactNode {
     return (
       <div>
@@ -39,10 +46,11 @@ const mapStateToProps = (state: State) => {
   }
 };
 
-const mapDispatchToProps = (dispatch: (param: CustomAction) => void) => {
+const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
-    onAddedTodo: (name: string) => dispatch({type: actionTypes.ADD_TODO, payload: {name}}),
-    onRemovedTodo: (id: string) => dispatch({type: actionTypes.REMOVE_TODO, payload: {id}}),
+    onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),
+    onRemovedTodo: (id: string) => dispatch({type: actionTypes.DELETE_TODO, payload: {id}}),
+    onGetTodos: () => dispatch({type: actionTypes.GET_TODOS})
   }
 };
 
