@@ -2,7 +2,10 @@ import React from 'react'
 
 const todos = (props: any) => {
   return (
-    <li>{props.name}<button onClick={props.clicked}>Remove</button></li>
+    <li style={{textDecoration: props.checked ? 'line-through' : 'none'} }
+        onClick={props.todoCompleted}>{props.name}
+        <button onClick={props.clicked}>Remove</button>
+    </li>
   )
 };
 

@@ -12,6 +12,7 @@ interface AppProps {
   onAddedTodo(param: string): void;
   onRemovedTodo(param: string): void;
   onGetTodos(): void;
+  onCheckedTodo(param: string, checked: any): void;
 }
 
 interface AppState {
@@ -29,7 +30,9 @@ class App extends React.Component<AppProps, AppState>{
       return <Todos
         key={todo.id}
         name={todo.name}
+        checked={todo.checked}
         clicked={() => this.props.onRemovedTodo(todo.id as string)}
+        todoCompleted={() => this.props.onCheckedTodo((todo.id as string), todo.checked)}
       />
     });
     return (
@@ -53,7 +56,8 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
   return {
     onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),
     onRemovedTodo: (id: string) => dispatch({type: actionTypes.DELETE_TODO, payload: {id}}),
-    onGetTodos: () => dispatch({type: actionTypes.GET_TODOS})
+    onGetTodos: () => dispatch({type: actionTypes.GET_TODOS}),
+    onCheckedTodo: (id: string, checked: boolean) => dispatch({type: actionTypes.CHECKED_TODO, payload: {id, checked}}),
   }
 };
 
