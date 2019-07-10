@@ -33,7 +33,6 @@ const reducer = (state: State = initialState, action: CustomAction) => {
       };*/
 
     case actionTypes.SET_TODOS:
-      // console.log(payload);
       return {
         ...state,
         todos: [

@@ -35,7 +35,6 @@ const addTodoEpic = (action$: any) =>
         name: action.payload.name,
         checked: false
       });
-
       const response = await fetch(
         url,
         {
@@ -60,7 +59,6 @@ const deleteTodoEpic = (action$: any) =>
       const url = `http://localhost:3001/todos/`;
       await fetch(url + action.payload.id, {method: 'DELETE'}).then(res => res.json());
       const payload = await fetch(url).then(res => res.json());
-
       return { type: SET_TODOS, payload: payload };
     }),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
@@ -86,7 +84,6 @@ const checkedTodoEpic = (action$: any) =>
     }),
 
   );
-
 
 const rootEpic = combineEpics(
   getTodoEpic,

@@ -6,6 +6,9 @@ import * as actionTypes from '../store/actions'
 import {Todo} from "../interfaces";
 import {CustomAction, State} from "../store/reducer";
 import {Action} from "redux";
+import {Container} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
 
 interface AppProps {
   propsTodos: Array<Todo>;
@@ -36,12 +39,16 @@ class App extends React.Component<AppProps, AppState>{
       />
     });
     return (
-      <div>
-        <AddTodo todoAdd={this.props.onAddedTodo}/>
-        <ul>
-          {list}
-        </ul>
-      </div>
+      <Container maxWidth="sm">
+        <Typography component="h1" variant="h2" color='error' gutterBottom={true} align='center'>todos</Typography>
+        <div>
+          <AddTodo todoAdd={this.props.onAddedTodo}/>
+          <List>
+            {list}
+          </List>
+        </div>
+      </Container>
+
     );
   }
 }

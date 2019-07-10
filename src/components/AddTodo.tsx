@@ -1,14 +1,24 @@
 import React from 'react'
+import { Paper, Typography, TextField } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 interface AddTodoProps {
-  todoAdd: (task: string) => void
+  todoAdd: (task: string, root?: any) => void;
+  root?: any
 }
 
 interface AddTodoState {
   value: string
 }
 
-class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
+const styles = {
+  root: {
+    maxWidth: '250px',
+    padding: '20px'
+  }
+};
+
+export default withStyles(styles) (class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   constructor(props:AddTodoProps) {
     super (props);
     this.state = {
@@ -22,21 +32,24 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
 
   enterInputHandler(event: any): void {
     if (event.keyCode === 13) {
-      this.props.todoAdd(this.state.value)
+      this.props.todoAdd(this.state.value);
+      this.setState({value: ''})
     }
   };
 
   render() {
+    const classes = this.props;
+    console.log(classes);
     return (
-      <div>
-        <input type='text'
-               value={this.state.value}
-               onChange={(event) => this.todoChangedHandler(event)}
-               onKeyDown={event => this.enterInputHandler(event)}
+      <Paper className={classes.root}>
+        <TextField value={this.state.value}
+                   onChange={(event) => this.todoChangedHandler(event)}
+                   onKeyDown={event => this.enterInputHandler(event)}
+                   placeholder='What needs to be done?'
+                   fullWidth={true}
         />
-      </div>
+      </Paper>
     )
   }
-}
+})
 
-export default AddTodo
