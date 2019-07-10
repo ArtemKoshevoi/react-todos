@@ -35,6 +35,7 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
                onKeyDown={event => this.enterInputHandler(event)}
         />
         {/*<button onClick={() => this.props.todoAdd(this.state.value)}>Add</button>*/}
+
       </div>
     )
   }

@@ -25,16 +25,19 @@ class App extends React.Component<AppProps, AppState>{
   }
 
   render(): React.ReactNode {
+    const list = this.props.propsTodos.map((todo:Todo) => {
+      return <Todos
+        key={todo.id}
+        name={todo.name}
+        clicked={() => this.props.onRemovedTodo(todo.id as string)}
+      />
+    });
     return (
       <div>
         <AddTodo todoAdd={this.props.onAddedTodo}/>
-        {this.props.propsTodos.map((todo: Todo) => (
-          <Todos
-            key={todo.id}
-            name={todo.name}
-            clicked={() => this.props.onRemovedTodo(todo.id as string)}
-          />
-        ))}
+        <ul>
+          {list}
+        </ul>
       </div>
     );
   }

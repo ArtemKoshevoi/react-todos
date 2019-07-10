@@ -2,7 +2,7 @@ import React from 'react'
 
 const todos = (props: any) => {
   return (
-    <p onClick={props.clicked}>{props.name}</p>
+    <li>{props.name}<button onClick={props.clicked}>Remove</button></li>
   )
 };
 
