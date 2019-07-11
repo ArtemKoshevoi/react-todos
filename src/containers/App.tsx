@@ -1,6 +1,7 @@
 import React from 'react';
 import AddTodo from '../components/AddTodo'
 import Todos from '../components/Todos'
+import Footer from '../components/Footer'
 import { connect } from "react-redux";
 import * as actionTypes from '../store/actions'
 import {Todo} from "../interfaces";
@@ -9,6 +10,10 @@ import {Action} from "redux";
 import {Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import TodosActive from "../components/TodosActive";
+import TodosComplited from "../components/TodosComplited";
+
 
 interface AppProps {
   propsTodos: Array<Todo>;
@@ -39,16 +44,21 @@ class App extends React.Component<AppProps, AppState>{
       />
     });
     return (
-      <Container maxWidth="sm">
-        <Typography component="h1" variant="h2" color='error' gutterBottom={true} align='center'>todos</Typography>
-        <div>
-          <AddTodo todoAdd={this.props.onAddedTodo}/>
-          <List>
-            {list}
-          </List>
-        </div>
-      </Container>
-
+      <BrowserRouter>
+        <Container maxWidth="sm">
+          <Typography component="h1" variant="h2" color='error' gutterBottom={true} align='center'>todos</Typography>
+          <div>
+            <AddTodo todoAdd={this.props.onAddedTodo}/>
+            <List>
+              {list}
+            </List>
+          </div>
+          <Footer />
+        </Container>
+        {/*<Route path='/' exact component={Todos}/>*/}
+        {/*<Route path='/active' component={TodosActive}/>*/}
+        {/*<Route path='/completed' component={TodosComplited}/>*/}
+      </BrowserRouter>
     );
   }
 }
@@ -70,48 +80,4 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-
-
-
-
-
-
-
-
-
-/*class App extends React.Component<MyProps, MyState>{
-  constructor(props: MyProps) {
-    super(props);
-    this.state = {
-        tasks: this.props.tasks
-    }
-  }
-
-
-  render(): React.ReactNode {
-    const task = this.state.tasks.map((item, index) => {
-      return <li key={index}>{item.name}</li>
-    });
-
-    return (
-      <ul>
-        {task}
-      </ul>
-    );
-  }
-}
-
-const mapStateToProps = (state: MyState) => {
-  return {
-    tasks: state.tasks
-  }
-};
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         action: () => dispatch({type: 'RELOAD'})
-//     };
-// };
-
-export default connect(mapStateToProps)(App);*/
 

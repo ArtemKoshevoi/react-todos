@@ -1,6 +1,7 @@
 import React from 'react'
-import { Paper, Typography, TextField } from '@material-ui/core'
+import { Paper, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+// import {BrowserRouter} from 'react-router-dom'
 
 interface AddTodoProps {
   todoAdd: (task: string, root?: any) => void;
@@ -14,7 +15,8 @@ interface AddTodoState {
 const styles = {
   root: {
     maxWidth: '250px',
-    padding: '20px'
+    padding: '20px',
+
   }
 };
 
@@ -39,7 +41,6 @@ export default withStyles(styles) (class AddTodo extends React.Component<AddTodo
 
   render() {
     const classes = this.props;
-    console.log(classes);
     return (
       <Paper className={classes.root}>
         <TextField value={this.state.value}
