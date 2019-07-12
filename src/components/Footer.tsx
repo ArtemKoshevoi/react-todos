@@ -1,12 +1,8 @@
 import React from 'react';
-import Todos from './Todos'
 import {List, ListItem, ListItemText} from "@material-ui/core";
-import {Link, Route} from "react-router-dom";
-import TodosActive from "./TodosActive";
+import {Link} from "react-router-dom";
 
-
-const footer = (props: any) => {
-
+const footer = () => {
   const flexContainer: any = {
     display: 'flex',
     width: '100%',
@@ -27,12 +23,12 @@ const footer = (props: any) => {
           <ListItemText primary="All"/>
         </ListItem>
       </Link>
-      <Link style={linkStyle}  to='/active'>
+      <Link style={linkStyle} to='/active'>
         <ListItem button>
           <ListItemText primary="Active"/>
         </ListItem>
       </Link>
-      <Link style={linkStyle}  to='/completed'>
+      <Link style={linkStyle} to='/completed'>
         <ListItem button>
           <ListItemText primary="Completed"/>
         </ListItem>

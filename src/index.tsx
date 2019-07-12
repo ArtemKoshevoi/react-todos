@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from 'react-redux'
 import {combineEpics, createEpicMiddleware, ofType} from "redux-observable";
-
 import './index.css';
-// import postRequest from './methods/post-request'
 import App from './containers/App';
 import reducer, {CustomAction} from './store/reducer'
 import * as serviceWorker from './serviceWorker';
@@ -15,7 +13,6 @@ import {of} from "rxjs";
 
 const getTodoEpic = (action$: any) =>
   action$.pipe(
-    // tap(res => console.log(111, res)),
     ofType(GET_TODOS),
     mergeMap(async () => {
       const url = `http://localhost:3001/todos`;
@@ -46,7 +43,6 @@ const addTodoEpic = (action$: any) =>
         },
       )
         .then(res => res.json());
-      // const response = postRequest(url, data);
       return { type: ADD_TODO, payload: response };
     }),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
@@ -69,20 +65,24 @@ const checkedTodoEpic = (action$: any) =>
     ofType(CHECKED_TODO),
     mergeMap(async (action: CustomAction) => {
       const url = `http://localhost:3001/todos/`;
-      await fetch(url + action.payload.id,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({"checked": !action.payload.checked }),
-
-          }).then(res => res.json());
+      const data = {
+        "checked": !action.payload.checked
+      };
+      await fetch(
+        url + action.payload.id,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+          }
+          )
+        .then(res => res.json());
       const payload = await fetch(url).then(res => res.json());
 
       return { type: SET_TODOS, payload: payload };
     }),
-
   );
 
 const rootEpic = combineEpics(
@@ -93,11 +93,8 @@ const rootEpic = combineEpics(
 );
 
 const epicMiddleware = createEpicMiddleware();
-
 const store = createStore(reducer, applyMiddleware(epicMiddleware));
-
 epicMiddleware.run(rootEpic);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
-
 serviceWorker.unregister();

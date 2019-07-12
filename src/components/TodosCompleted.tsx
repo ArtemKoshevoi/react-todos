@@ -9,16 +9,16 @@ import List from "@material-ui/core/List";
 import {Action} from "redux";
 import * as actionTypes from "../store/actions";
 
-interface TodosActiveProps {
+interface TodosCompletedProps {
   propsTodos: Array<Todo>;
   onCheckedTodo(param: string, checked: any): void;
   onRemovedTodo(param: any): void;
 }
 
-class TodosActive extends React.Component <TodosActiveProps> {
+class TodosCompleted extends React.Component <TodosCompletedProps> {
   render(): React.ReactNode {
     const list = this.props.propsTodos.map((todo:Todo) => {
-      if (todo.checked === false)
+      if (todo.checked === true)
       return (
         <ListItem key={todo.id} style={{textDecoration: todo.checked ? 'line-through' : 'none'} }>
           <Checkbox onChange={() => this.props.onCheckedTodo((todo.id as string), todo.checked)}
@@ -32,7 +32,6 @@ class TodosActive extends React.Component <TodosActiveProps> {
         </ListItem>
       );
     });
-
     return (
       <List>
         {list}
@@ -54,4 +53,4 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodosActive)
+export default connect(mapStateToProps, mapDispatchToProps)(TodosCompleted)
