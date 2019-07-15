@@ -49,8 +49,11 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
-    onRemovedTodo: (id: string) => dispatch({type: actionTypes.DELETE_TODO, payload: {id}}),
-    onCheckedTodo: (id: string, checked: boolean) => dispatch({type: actionTypes.CHECKED_TODO, payload: {id, checked}}),
+    onRemovedTodo: (id: string) =>
+      dispatch({type: actionTypes.DELETE_REQUEST_TODO, payload: {id}}),
+
+    onCheckedTodo: (id: string, checked: boolean) =>
+      dispatch({type: actionTypes.CHECKED_TODO, payload: {id, checked}}),
   }
 };
 

@@ -16,7 +16,6 @@ const styles = {
   root: {
     maxWidth: '250px',
     padding: '20px',
-
   }
 };
 

@@ -7,8 +7,17 @@ import './index.css';
 import App from './containers/App';
 import reducer, {CustomAction} from './store/reducer'
 import * as serviceWorker from './serviceWorker';
-import {ADD_TODO, CHECKED_TODO, DELETE_TODO, GET_TODOS, GET_TODOS_ERROR, PUT_TODO, SET_TODOS} from "./store/actions";
-import {catchError, mergeMap} from "rxjs/operators";
+import {
+  ADD_TODO,
+  CHECKED_TODO, DELETE_CHECKED_REQUEST_TODO,
+  DELETE_CHECKED_TODO, DELETE_REQUEST_TODO,
+  DELETE_TODO,
+  GET_TODOS,
+  GET_TODOS_ERROR,
+  PUT_TODO,
+  SET_TODOS
+} from "./store/actions";
+import {catchError, mergeMap, tap} from "rxjs/operators";
 import {of} from "rxjs";
 
 const getTodoEpic = (action$: any) =>
@@ -50,12 +59,11 @@ const addTodoEpic = (action$: any) =>
 
 const deleteTodoEpic = (action$: any) =>
   action$.pipe(
-    ofType(DELETE_TODO),
+    ofType(DELETE_REQUEST_TODO),
     mergeMap(async (action: CustomAction) => {
       const url = `http://localhost:3001/todos/`;
       await fetch(url + action.payload.id, {method: 'DELETE'}).then(res => res.json());
-      const payload = await fetch(url).then(res => res.json());
-      return { type: SET_TODOS, payload: payload };
+      return { type: DELETE_TODO, payload: action.payload.id };
     }),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
   );
@@ -85,11 +93,25 @@ const checkedTodoEpic = (action$: any) =>
     }),
   );
 
+const deleteCheckedTodoEpic = (action$: any) =>
+  action$.pipe(
+    ofType(DELETE_CHECKED_REQUEST_TODO),
+    mergeMap(async (action: CustomAction) => {
+      const url = `http://localhost:3001/todos/`;
+      action.payload.checkedArr.map((id: string) => {
+        fetch(url + id, {method: 'DELETE'}).then(res => res.json());
+      });
+      return { type: DELETE_CHECKED_TODO, payload: action.payload };
+    }),
+    catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
+  );
+
 const rootEpic = combineEpics(
   getTodoEpic,
   addTodoEpic,
   deleteTodoEpic,
-  checkedTodoEpic
+  checkedTodoEpic,
+  deleteCheckedTodoEpic
 );
 
 const epicMiddleware = createEpicMiddleware();

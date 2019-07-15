@@ -1,6 +1,7 @@
 import * as actionTypes from './actions'
 import {Todo} from "../interfaces";
 import {Action} from "redux";
+import {DELETE_CHECKED_TODO} from "./actions";
 
 export interface State {
   todos: Todo[]
@@ -26,11 +27,6 @@ const reducer = (state: State = initialState, action: CustomAction) => {
           payload
         ]
       };
-    /*case actionTypes.REMOVE_TODO:
-      return {
-        ...state,
-        todos: state.todos.filter(todo => todo.id !== payload.id)
-      };*/
 
     case actionTypes.SET_TODOS:
       return {
@@ -39,6 +35,20 @@ const reducer = (state: State = initialState, action: CustomAction) => {
           ...payload
         ]
       };
+
+    case actionTypes.DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== payload)
+      };
+
+    case actionTypes.DELETE_CHECKED_TODO:
+      console.log(payload);
+      return {
+        ...state,
+        todos: state.todos.filter(todo => !(payload.checkedArr as string[]).includes(todo.id as string))
+      };
+
     case actionTypes.GET_TODOS_ERROR:
       alert(payload);
       break
