@@ -8,7 +8,7 @@ import App from './containers/App';
 import reducer, {CustomAction} from './store/reducer'
 import * as serviceWorker from './serviceWorker';
 import {
-  ADD_TODO,
+  ADD_TODO, CHANGE_CHECKED_REQUEST_TODO, CHANGE_CHECKED_TODO,
   CHECKED_TODO, DELETE_CHECKED_REQUEST_TODO,
   DELETE_CHECKED_TODO, DELETE_REQUEST_TODO,
   DELETE_TODO,
@@ -17,9 +17,8 @@ import {
   PUT_TODO,
   SET_TODOS
 } from "./store/actions";
-import {catchError, map, mergeMap, switchMap, tap} from "rxjs/operators";
+import {catchError, map, mergeMap, tap} from "rxjs/operators";
 import {from, of} from "rxjs";
-import {any} from "prop-types";
 
 const getTodoEpic = (action$: any) =>
   action$.pipe(
@@ -94,6 +93,38 @@ const checkedTodoEpic = (action$: any) =>
     }),
   );
 
+const changeCheckedTodoEpic = (action$: any) =>
+  action$.pipe(
+    ofType(CHANGE_CHECKED_REQUEST_TODO),
+    mergeMap((action: CustomAction) => {
+      const url = `http://localhost:3001/todos/`;
+      const data = {
+        "checked": !action.payload.checkedStatus
+      };
+      return from(action.payload.checkedArr).pipe(
+        mergeMap(async (id: any) => {
+          await fetch(
+            url + id,
+            {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data),
+            }
+          )
+            .then(res => res.json());
+          return action.payload;
+        }),
+      );
+    }),
+    map((payload) => {
+      return { type: CHANGE_CHECKED_TODO, payload };
+    }),
+    catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
+  );
+
+
 const deleteCheckedTodoEpic = (action$: any) =>
   action$.pipe(
     ofType(DELETE_CHECKED_REQUEST_TODO),
@@ -118,7 +149,8 @@ const rootEpic = combineEpics(
   addTodoEpic,
   deleteTodoEpic,
   checkedTodoEpic,
-  deleteCheckedTodoEpic
+  deleteCheckedTodoEpic,
+  changeCheckedTodoEpic
 );
 
 const epicMiddleware = createEpicMiddleware();
