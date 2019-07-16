@@ -17,8 +17,9 @@ import {
   PUT_TODO,
   SET_TODOS
 } from "./store/actions";
-import {catchError, mergeMap, tap} from "rxjs/operators";
-import {of} from "rxjs";
+import {catchError, map, mergeMap, switchMap, tap} from "rxjs/operators";
+import {from, of} from "rxjs";
+import {any} from "prop-types";
 
 const getTodoEpic = (action$: any) =>
   action$.pipe(
@@ -96,13 +97,19 @@ const checkedTodoEpic = (action$: any) =>
 const deleteCheckedTodoEpic = (action$: any) =>
   action$.pipe(
     ofType(DELETE_CHECKED_REQUEST_TODO),
-    mergeMap(async (action: CustomAction) => {
+    mergeMap((action: CustomAction) => {
       const url = `http://localhost:3001/todos/`;
-      action.payload.checkedArr.map((id: string) => {
-        fetch(url + id, {method: 'DELETE'}).then(res => res.json());
-      });
-      return { type: DELETE_CHECKED_TODO, payload: action.payload };
+      return from(action.payload.checkedArr).pipe(
+        mergeMap(async (id: any) => {
+          await fetch(url + id, {method: 'DELETE'});
+          return action.payload;
+        }),
+      );
     }),
+    map((payload) => {
+      return { type: DELETE_CHECKED_TODO, payload };
+    }),
+    tap(res => console.log(333, res)),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
   );
 
