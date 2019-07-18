@@ -11,7 +11,6 @@ import {Todo} from "../interfaces";
 interface AddTodoProps {
   propsTodos: Array<Todo>;
   todoAdd: (task: string, root?: any) => void;
-  root?: any
   onChangeCheckedTodo(checkedArr: any, checkedStatus: boolean): void;
 }
 

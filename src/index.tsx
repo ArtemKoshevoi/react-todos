@@ -6,7 +6,6 @@ import {combineEpics, createEpicMiddleware, ofType} from "redux-observable";
 import './index.css';
 import App from './containers/App';
 import reducer, {CustomAction} from './store/reducer'
-import * as serviceWorker from './serviceWorker';
 import {
   ADD_TODO, CHANGE_CHECKED_REQUEST_TODO, CHANGE_CHECKED_TODO, CHECKED_REQUEST_TODO,
   CHECKED_TODO, DELETE_CHECKED_REQUEST_TODO,
@@ -17,7 +16,7 @@ import {
   PUT_TODO,
   SET_TODOS, UPDATE_REQUEST_TODO, UPDATE_TODO
 } from "./store/actions";
-import {catchError, map, mergeMap, tap} from "rxjs/operators";
+import {catchError, map, mergeMap} from "rxjs/operators";
 import {from, of} from "rxjs";
 
 const getTodoEpic = (action$: any) =>
@@ -139,7 +138,6 @@ const deleteCheckedTodoEpic = (action$: any) =>
     map((payload) => {
       return { type: DELETE_CHECKED_TODO, payload };
     }),
-    tap(res => console.log(333, res)),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
   );
 
@@ -147,7 +145,6 @@ const updateTodoEpic = (action$: any) =>
   action$.pipe(
     ofType(UPDATE_REQUEST_TODO),
     mergeMap(async (action: CustomAction) => {
-      console.log(555, action.payload);
       const url = `http://localhost:3001/todos/`;
       const data = {
         "name": action.payload.value
@@ -183,4 +180,3 @@ const store = createStore(reducer, applyMiddleware(epicMiddleware));
 epicMiddleware.run(rootEpic);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
-serviceWorker.unregister();

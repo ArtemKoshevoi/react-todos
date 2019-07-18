@@ -9,7 +9,7 @@ import {
   ListItemText,
   TextField
 } from "@material-ui/core";
-import {Clear, Done} from "@material-ui/icons";
+import {Clear} from "@material-ui/icons";
 import {CustomAction, State} from "../store/reducer";
 import {Action} from "redux";
 import * as actionTypes from "../store/actions";
@@ -18,8 +18,8 @@ import {Todo} from "../interfaces";
 
 interface TodoListItemProps {
   propsTodos: Array<Todo>;
-  todo: any
-  onRemovedTodo(param: any): void;
+  todo: any;
+  onRemovedTodo(id: string): void;
   onCheckedTodo(id: string, checked: any): void;
   onUpdateTodo(id: string, value: string): void;
 }
@@ -89,6 +89,7 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
               value={this.state.value}
               onChange={this.handleValueChange}
               onKeyDown={event => this.enterInputHandler(event)}
+              autoFocus={true}
             />
           </Container> :
           <Box component='label'>

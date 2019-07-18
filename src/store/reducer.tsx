@@ -41,7 +41,6 @@ const reducer = (state: State = initialState, action: CustomAction) => {
       };
 
     case actionTypes.CHECKED_TODO:
-      console.log(777,payload.id);
       return {
         ...state,
         todos: state.todos.reduce((acc: any, value) =>
@@ -49,16 +48,13 @@ const reducer = (state: State = initialState, action: CustomAction) => {
           , [])
       };
 
-
     case actionTypes.DELETE_CHECKED_TODO:
-      console.log(payload);
       return {
         ...state,
         todos: state.todos.filter(todo => !(payload.checkedArr as string[]).includes(todo.id as string))
       };
 
     case actionTypes.CHANGE_CHECKED_TODO:
-      console.log(payload);
       return {
         ...state,
        todos: [
@@ -69,7 +65,6 @@ const reducer = (state: State = initialState, action: CustomAction) => {
       };
 
     case actionTypes.UPDATE_TODO:
-      console.log(payload.id);
       return {
         ...state,
         todos: state.todos.reduce((acc: any, value) =>

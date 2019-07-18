@@ -15,7 +15,6 @@ interface FooterProps {
 }
 
 class footer extends React.Component<FooterProps> {
-
   render(): React.ReactNode {
     const flexContainer: object = {
       display: 'flex',
@@ -30,10 +29,6 @@ class footer extends React.Component<FooterProps> {
       textDecoration: 'none',
       fontSize: '14px',
       color: 'black',
-      '&:hover': {
-        backgroundColor: 'orange',
-        border: '2px solid black'
-      }
     };
 
     const btnStyle: object = {
