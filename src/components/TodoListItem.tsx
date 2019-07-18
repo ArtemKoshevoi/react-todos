@@ -44,24 +44,24 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
     })
   };
 
-  cancelEdit = () => {
-    this.setState({
-      value: this.props.todo.name,
-      isInEditMode: false,
-    })
-  };
-
   handleValueChange = (event: any) => {
     this.setState({
       value: event.target.value
     });
   };
 
-  handleUpdateValue = () => {
-    this.setState({
-      isInEditMode: !this.state.isInEditMode,
-    });
-    this.props.onUpdateTodo(this.props.todo.id, this.state.value)
+  enterInputHandler(event: any): void {
+    if (event.keyCode === 13) {
+      this.setState({
+        isInEditMode: !this.state.isInEditMode,
+      });
+      this.props.onUpdateTodo(this.props.todo.id, this.state.value)
+    } else if (event.keyCode === 27){
+      this.setState({
+        value: this.props.todo.name,
+        isInEditMode: false,
+      })
+    }
   };
 
   render(): React.ReactNode {
@@ -88,13 +88,8 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
               type='text'
               value={this.state.value}
               onChange={this.handleValueChange}
+              onKeyDown={event => this.enterInputHandler(event)}
             />
-            <IconButton onClick={this.cancelEdit}>
-              <Clear />
-            </IconButton>
-            <IconButton onClick={() => this.handleUpdateValue()} >
-              <Done />
-            </IconButton>
           </Container> :
           <Box component='label'>
             {todo.name}
