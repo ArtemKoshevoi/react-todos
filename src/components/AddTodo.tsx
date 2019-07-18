@@ -50,7 +50,6 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
       return todo.checked === true
     });
 
-
     this.props.propsTodos.map((todo: Todo) => {
       if (todo.checked === false && !isEveryCheckedTrue) {
         checkedArr.push(todo.id);

@@ -58,6 +58,15 @@ const reducer = (state: State = initialState, action: CustomAction) => {
        ]
       };
 
+    case actionTypes.UPDATE_TODO:
+      console.log(payload.id);
+      return {
+        ...state,
+        todos: state.todos.reduce((acc: any, value) =>
+            [...acc, value.id === payload.id ? {...value, name: payload.value} : value]
+    , [])
+      };
+
     case actionTypes.GET_TODOS_ERROR:
       alert(payload);
       break

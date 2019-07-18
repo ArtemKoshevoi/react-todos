@@ -15,7 +15,7 @@ import {
   GET_TODOS,
   GET_TODOS_ERROR,
   PUT_TODO,
-  SET_TODOS
+  SET_TODOS, UPDATE_REQUEST_TODO, UPDATE_TODO
 } from "./store/actions";
 import {catchError, map, mergeMap, tap} from "rxjs/operators";
 import {from, of} from "rxjs";
@@ -144,13 +144,39 @@ const deleteCheckedTodoEpic = (action$: any) =>
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
   );
 
+const updateTodoEpic = (action$: any) =>
+  action$.pipe(
+    ofType(UPDATE_REQUEST_TODO),
+    mergeMap(async (action: CustomAction) => {
+      console.log(555, action.payload);
+      const url = `http://localhost:3001/todos/`;
+      const data = {
+        "name": action.payload.value
+      };
+      await fetch(
+        url + action.payload.id,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }
+      )
+        .then(res => res.json());
+        return { type: UPDATE_TODO, payload: action.payload };
+    }),
+    catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
+  );
+
 const rootEpic = combineEpics(
   getTodoEpic,
   addTodoEpic,
   deleteTodoEpic,
   checkedTodoEpic,
   deleteCheckedTodoEpic,
-  changeCheckedTodoEpic
+  changeCheckedTodoEpic,
+  updateTodoEpic,
 );
 
 const epicMiddleware = createEpicMiddleware();

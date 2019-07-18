@@ -1,40 +1,39 @@
 import React from 'react'
-import {ListItem, ListItemSecondaryAction, IconButton} from "@material-ui/core";
-import { Clear } from '@material-ui/icons'
-import Checkbox from "@material-ui/core/Checkbox";
-import {CustomAction, State} from "../store/reducer";
+import {State} from "../store/reducer";
 import {connect} from "react-redux";
 import {Todo} from "../interfaces";
 import List from "@material-ui/core/List";
-import {Action} from "redux";
-import * as actionTypes from "../store/actions";
+import TodoListItem from "./TodoListItem";
 
 interface TodosProps {
   propsTodos: Array<Todo>;
-  onCheckedTodo(param: string, checked: any): void;
-  onRemovedTodo(param: any): void;
+  todoAdd: (task: string, root?: any) => void;
+  onUpdateTodo(id: string, value: any): void;
 }
 
-class Todos extends React.Component <TodosProps> {
-  render(): React.ReactNode {
-    const list = this.props.propsTodos.map((todo:Todo) => {
-      return (
-        <ListItem key={todo.id} style={{textDecoration: todo.checked ? 'line-through' : 'none'} }>
-          <Checkbox onChange={() => this.props.onCheckedTodo((todo.id as string), todo.checked)}
-                    color='primary'
-                    checked={todo.checked}/>{todo.name}
-          <ListItemSecondaryAction>
-            <IconButton color='secondary' onClick={() => this.props.onRemovedTodo(todo.id as string)}>
-              <Clear />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      );
-    });
+interface TodosState {
+  value: any,
+}
 
+class Todos extends React.Component <TodosProps, TodosState> {
+  constructor(props: TodosProps) {
+    super(props);
+    this.state= {
+      value: '',
+    }
+  }
+
+  render(): React.ReactNode {
     return (
       <List>
-        {list}
+        {this.props.propsTodos.map((todo:Todo) => {
+          return (
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+            />
+          );
+        })}
       </List>
     );
   }
@@ -46,14 +45,5 @@ const mapStateToProps = (state: State) => {
   }
 };
 
-const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
-  return {
-    onRemovedTodo: (id: string) =>
-      dispatch({type: actionTypes.DELETE_REQUEST_TODO, payload: {id}}),
 
-    onCheckedTodo: (id: string, checked: boolean) =>
-      dispatch({type: actionTypes.CHECKED_TODO, payload: {id, checked}}),
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Todos)
+export default connect(mapStateToProps)(Todos)
