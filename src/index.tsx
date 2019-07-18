@@ -8,7 +8,7 @@ import App from './containers/App';
 import reducer, {CustomAction} from './store/reducer'
 import * as serviceWorker from './serviceWorker';
 import {
-  ADD_TODO, CHANGE_CHECKED_REQUEST_TODO, CHANGE_CHECKED_TODO,
+  ADD_TODO, CHANGE_CHECKED_REQUEST_TODO, CHANGE_CHECKED_TODO, CHECKED_REQUEST_TODO,
   CHECKED_TODO, DELETE_CHECKED_REQUEST_TODO,
   DELETE_CHECKED_TODO, DELETE_REQUEST_TODO,
   DELETE_TODO,
@@ -70,7 +70,7 @@ const deleteTodoEpic = (action$: any) =>
 
 const checkedTodoEpic = (action$: any) =>
   action$.pipe(
-    ofType(CHECKED_TODO),
+    ofType(CHECKED_REQUEST_TODO),
     mergeMap(async (action: CustomAction) => {
       const url = `http://localhost:3001/todos/`;
       const data = {
@@ -87,10 +87,9 @@ const checkedTodoEpic = (action$: any) =>
           }
           )
         .then(res => res.json());
-      const payload = await fetch(url).then(res => res.json());
-
-      return { type: SET_TODOS, payload: payload };
+        return { type: CHECKED_TODO, payload: action.payload };
     }),
+    catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
   );
 
 const changeCheckedTodoEpic = (action$: any) =>

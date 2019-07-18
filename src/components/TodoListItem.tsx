@@ -122,7 +122,7 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
       dispatch({type: actionTypes.DELETE_REQUEST_TODO, payload: {id}}),
 
     onCheckedTodo: (id: string, checked: any) =>
-      dispatch({type: actionTypes.CHECKED_TODO, payload: {id, checked}}),
+      dispatch({type: actionTypes.CHECKED_REQUEST_TODO, payload: {id, checked}}),
 
     onUpdateTodo: (id: string, value: string) =>
       dispatch({type: actionTypes.UPDATE_REQUEST_TODO, payload: {id, value}}),

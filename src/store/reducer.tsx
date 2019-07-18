@@ -40,6 +40,16 @@ const reducer = (state: State = initialState, action: CustomAction) => {
         todos: state.todos.filter(todo => todo.id !== payload)
       };
 
+    case actionTypes.CHECKED_TODO:
+      console.log(777,payload.id);
+      return {
+        ...state,
+        todos: state.todos.reduce((acc: any, value) =>
+            [...acc, value.id === payload.id ? {...value, checked: !value.checked} : value]
+          , [])
+      };
+
+
     case actionTypes.DELETE_CHECKED_TODO:
       console.log(payload);
       return {
