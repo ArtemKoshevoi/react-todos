@@ -10,11 +10,13 @@ import {
   TextField
 } from "@material-ui/core";
 import {Clear} from "@material-ui/icons";
-import {CustomAction, State} from "../store/reducer";
+import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
-import * as actionTypes from "../store/actions";
+import * as actionTypes from "../../redux/todo/actions/actions";
 import {connect} from "react-redux";
-import {Todo} from "../interfaces";
+import {Todo} from "../../interfaces";
+import {textFieldStyle} from "../AddTodo/style";
+import {TodoInitialState} from "../../redux/todo/state/initialState";
 
 interface TodoListItemProps {
   propsTodos: Array<Todo>;
@@ -66,11 +68,6 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
 
   render(): React.ReactNode {
     const todo = this.props.todo;
-
-    const textFieldStyle: object = {
-      paddingLeft: 0
-    };
-
     return (
       <ListItem
         onDoubleClick={this.changeEditMode}
@@ -106,9 +103,9 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
   }
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: TodoInitialState) => {
   return {
-    propsTodos: state.todos
+    propsTodos: state.entities
   }
 };
 

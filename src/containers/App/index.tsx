@@ -1,17 +1,16 @@
 import React from 'react';
-import AddTodo from '../components/AddTodo'
-import Todos from '../components/Todos'
-import Footer from '../components/Footer'
+import AddTodo from '../../components/AddTodo'
+import Todos from '../../components/Todos'
+import Footer from '../../components/Footer'
 import {connect} from "react-redux";
-import * as actionTypes from '../store/actions'
-import {Todo} from "../interfaces";
-import {CustomAction, State} from "../store/reducer";
+import * as actionTypes from '../../redux/todo/actions/actions'
+import {Todo} from "../../interfaces";
+import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import {Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {BrowserRouter, Route} from "react-router-dom";
-import TodosActive from "../components/TodosActive";
-import TodosCompleted from "../components/TodosCompleted";
+import {State} from '../../redux/store';
 
 interface AppProps {
   propsTodos: Array<Todo>;
@@ -33,8 +32,8 @@ class App extends React.Component<AppProps>{
           <div>
             <AddTodo todoAdd={this.props.onAddedTodo}/>
             <Route path='/' exact component={Todos}/>
-            <Route path='/active' component={TodosActive}/>
-            <Route path='/completed' component={TodosCompleted}/>
+            <Route path='/active' component={Todos}/>
+            <Route path='/completed' component={Todos}/>
           </div>
           <Footer />
         </Container>
@@ -45,7 +44,7 @@ class App extends React.Component<AppProps>{
 
 const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.todos
+    propsTodos: state.todos.entities
   }
 };
 

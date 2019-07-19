@@ -1,9 +1,9 @@
 import React from 'react'
-import {State} from "../store/reducer";
 import {connect} from "react-redux";
-import {Todo} from "../interfaces";
+import {Todo} from "../../interfaces";
 import List from "@material-ui/core/List";
-import TodoListItem from "./TodoListItem";
+import TodoListItem from "../TodoListItem/";
+import {TodoInitialState} from "../../redux/todo/state/initialState";
 
 interface TodosProps {
   propsTodos: Array<Todo>;
@@ -15,7 +15,7 @@ interface TodosState {
   value: any,
 }
 
-class Todos extends React.Component <TodosProps, TodosState> {
+class Index extends React.Component <TodosProps, TodosState> {
   constructor(props: TodosProps) {
     super(props);
     this.state= {
@@ -39,11 +39,12 @@ class Todos extends React.Component <TodosProps, TodosState> {
   }
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: TodoInitialState) => {
   return {
-    propsTodos: state.todos
+    propsTodos: state.entities
   }
 };
 
 
-export default connect(mapStateToProps)(Todos)
+
+export default connect(mapStateToProps)(Index)

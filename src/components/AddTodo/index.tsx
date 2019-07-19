@@ -2,14 +2,16 @@ import React from 'react'
 import { Paper, TextField } from '@material-ui/core'
 import IconButton from "@material-ui/core/IconButton";
 import {KeyboardArrowDown} from "@material-ui/icons";
-import {CustomAction, State} from "../store/reducer";
+import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {connect} from "react-redux";
 import {Action} from "redux";
-import * as actionTypes from "../store/actions";
-import {Todo} from "../interfaces";
+import * as actionTypes from "../../redux/todo/actions/actions";
+import {Todo} from "../../interfaces";
+import {textFieldStyle} from "./style";
+import {TodoInitialState} from "../../redux/todo/state/initialState";
 
 interface AddTodoProps {
-  propsTodos: Array<Todo>;
+  propsTodos: any;
   todoAdd: (task: string, root?: any) => void;
   onChangeCheckedTodo(checkedArr: any, checkedStatus: boolean): void;
 }
@@ -38,14 +40,10 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   };
 
   render() {
-    const textFieldStyle: object = {
-      display: 'flex',
-      alignItems: 'flex-end'
-    };
-
+    console.log(this.props);
     let checkedArr: any = [];
     let checkedStatus: boolean = true;
-    const isEveryCheckedTrue = this.props.propsTodos.every(todo => {
+    const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
       return todo.checked === true
     });
 
@@ -75,9 +73,9 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   }
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: TodoInitialState) => {
   return {
-    propsTodos: state.todos
+    propsTodos: state.entities
   }
 };
 

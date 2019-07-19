@@ -1,46 +1,25 @@
 import React from 'react';
-import {Todo} from "../interfaces";
+import {Todo} from "../../interfaces";
 import {List, ListItem, ListItemText} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import {CustomAction, State} from "../store/reducer";
+import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
-import * as actionTypes from "../store/actions";
+import * as actionTypes from "../../redux/todo/actions/actions";
+import * as actionFilterTypes from "../../redux/filters/actions/actions";
 import {connect} from "react-redux";
+import {btnStyle, flexContainer, itemsCounter, linkStyle} from "./style";
+import {TodoInitialState} from "../../redux/todo/state/initialState";
 
 interface FooterProps {
   propsTodos: Array<Todo>;
   onClearCheckedTodo(param: any): void;
+  onTabSelected(tab: string): void;
 }
 
 class footer extends React.Component<FooterProps> {
   render(): React.ReactNode {
-    const flexContainer: object = {
-      display: 'flex',
-      width: '100%',
-      alignItems: 'center',
-      margin: 'auto',
-      padding: '0',
-      fontSize: '14px',
-    };
-
-    const linkStyle: object = {
-      textDecoration: 'none',
-      fontSize: '14px',
-      color: 'black',
-    };
-
-    const btnStyle: object = {
-      textAlign: 'center'
-    };
-
-    const itemsCounter: object = {
-      width: '100%',
-      maxWidth: '70px',
-      marginRight: '25px',
-    };
-
     let counter: number = 0;
     this.props.propsTodos.map((todo: Todo) => {
       if (todo.checked === false) {
@@ -63,17 +42,17 @@ class footer extends React.Component<FooterProps> {
         <List component='nav' style={flexContainer}>
           <Box component='span' style={itemsCounter}>{counter} {counterText} left</Box>
           <Link style={linkStyle} to='/'>
-            <ListItem button>
+            <ListItem button onClick={() => this.props.onTabSelected('all')}>
               <ListItemText primary='All'/>
             </ListItem>
           </Link>
           <Link style={linkStyle} to='/active'>
-            <ListItem button>
+            <ListItem button onClick={() => this.props.onTabSelected('active')}>
               <ListItemText primary='Active'/>
             </ListItem>
           </Link>
           <Link style={linkStyle} to='/completed'>
-            <ListItem button>
+            <ListItem button onClick={() => this.props.onTabSelected('completed')}>
               <ListItemText primary='Completed'/>
             </ListItem>
           </Link>
@@ -86,16 +65,19 @@ class footer extends React.Component<FooterProps> {
   }
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: TodoInitialState) => {
   return {
-    propsTodos: state.todos
+    propsTodos: state.entities
   }
 };
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
     onClearCheckedTodo: (checkedArr: any) =>
-      dispatch({type: actionTypes.DELETE_CHECKED_REQUEST_TODO, payload: {checkedArr}})
+      dispatch({type: actionTypes.DELETE_CHECKED_REQUEST_TODO, payload: {checkedArr}}),
+
+    onTabSelected: (tabName: string) =>
+      dispatch({type: actionFilterTypes.TAB_SELECTED, payload: {tabName}})
   }
 };
 

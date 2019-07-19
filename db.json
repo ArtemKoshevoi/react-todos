@@ -2,13 +2,18 @@
   "todos": [
     {
       "id": 0.2025954700473025,
-      "name": "1123",
-      "checked": false
+      "name": "1123sda",
+      "checked": true
     },
     {
       "id": 0.851475110770372,
       "name": "sdasdxxcz",
       "checked": false
+    },
+    {
+      "id": 0.4058344023638525,
+      "name": "dsf",
+      "checked": true
     }
   ]
 }

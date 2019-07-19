@@ -1,27 +1,19 @@
-import * as actionTypes from './actions'
-import {Todo} from "../interfaces";
+import * as actionTypes from '../actions/actions'
 import {Action} from "redux";
-
-export interface State {
-  todos: Todo[]
-}
+import initialState, {TodoInitialState} from "../state/initialState";
 
 export interface CustomAction extends Action {
   payload: any
 }
 
-const initialState = {
-  todos: []
-};
-
-const reducer = (state: State = initialState, action: CustomAction) => {
+const todoReducer = (state: TodoInitialState = initialState, action: CustomAction) => {
   const {type, payload} = action;
   switch (type) {
     case actionTypes.ADD_TODO:
       return {
         ...state,
-        todos: [
-          ...state.todos,
+        entities: [
+          ...state.entities,
           payload
         ]
       };
@@ -29,7 +21,7 @@ const reducer = (state: State = initialState, action: CustomAction) => {
     case actionTypes.SET_TODOS:
       return {
         ...state,
-        todos: [
+        entities: [
           ...payload
         ]
       };
@@ -37,13 +29,13 @@ const reducer = (state: State = initialState, action: CustomAction) => {
     case actionTypes.DELETE_TODO:
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== payload)
+        entities: state.entities.filter(todo => todo.id !== payload)
       };
 
     case actionTypes.CHECKED_TODO:
       return {
         ...state,
-        todos: state.todos.reduce((acc: any, value) =>
+        entities: state.entities.reduce((acc: any, value) =>
             [...acc, value.id === payload.id ? {...value, checked: !value.checked} : value]
           , [])
       };
@@ -51,14 +43,14 @@ const reducer = (state: State = initialState, action: CustomAction) => {
     case actionTypes.DELETE_CHECKED_TODO:
       return {
         ...state,
-        todos: state.todos.filter(todo => !(payload.checkedArr as string[]).includes(todo.id as string))
+        entities: state.entities.filter(todo => !(payload.checkedArr as string[]).includes(todo.id as string))
       };
 
     case actionTypes.CHANGE_CHECKED_TODO:
       return {
         ...state,
-       todos: [
-         ...state.todos.map(todo => ({
+        entities: [
+         ...state.entities.map(todo => ({
            ...todo, checked: !payload.checkedStatus
          }))
        ]
@@ -67,7 +59,7 @@ const reducer = (state: State = initialState, action: CustomAction) => {
     case actionTypes.UPDATE_TODO:
       return {
         ...state,
-        todos: state.todos.reduce((acc: any, value) =>
+        entities: state.entities.reduce((acc: any, value) =>
             [...acc, value.id === payload.id ? {...value, name: payload.value} : value]
     , [])
       };
@@ -80,4 +72,4 @@ const reducer = (state: State = initialState, action: CustomAction) => {
   return state
 };
 
-export default reducer
+export default todoReducer
