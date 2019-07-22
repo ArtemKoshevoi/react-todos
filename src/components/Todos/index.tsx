@@ -23,10 +23,9 @@ class Index extends React.Component <TodosProps, TodosState> {
       value: '',
     };
     this.necessaryTodo = this.necessaryTodo.bind(this);
-
   }
 
-  necessaryTodo = (allTodos: any, filter: any) => {
+  necessaryTodo = (allTodos: Array<Todo>, filter: string) => {
     if (filter === 'completed') {
       return allTodos.filter((todo: Todo) => {
          return todo.checked

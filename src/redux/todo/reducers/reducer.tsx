@@ -51,7 +51,7 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
         ...state,
         entities: [
          ...state.entities.map(todo => ({
-           ...todo, checked: !payload.checkedStatus
+           ...todo, checked: payload.response.checked
          }))
        ]
       };

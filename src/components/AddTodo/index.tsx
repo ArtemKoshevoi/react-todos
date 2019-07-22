@@ -8,7 +8,6 @@ import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "./style";
-import {TodoInitialState} from "../../redux/todo/state/initialState";
 import {State} from "../../redux/store";
 
 interface AddTodoProps {
