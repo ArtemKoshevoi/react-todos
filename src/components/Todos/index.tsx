@@ -7,6 +7,7 @@ import {State} from "../../redux/store";
 
 interface TodosProps {
   propsTodos: Array<Todo>;
+  propsFilter: any;
   todoAdd: (task: string, root?: any) => void;
   onUpdateTodo(id: string, value: any): void;
 }
@@ -20,13 +21,29 @@ class Index extends React.Component <TodosProps, TodosState> {
     super(props);
     this.state= {
       value: '',
-    }
+    };
+    this.necessaryTodo = this.necessaryTodo.bind(this);
+
   }
+
+  necessaryTodo = (allTodos: any, filter: any) => {
+    if (filter === 'completed') {
+      return allTodos.filter((todo: Todo) => {
+         return todo.checked
+      })
+    } else if (filter === 'active') {
+      return allTodos.filter((todo: Todo) => {
+        return !todo.checked
+      })
+      } else
+        return allTodos
+    };
+
 
   render(): React.ReactNode {
     return (
       <List>
-        {this.props.propsTodos.map((todo:Todo) => {
+        {this.necessaryTodo(this.props.propsTodos, this.props.propsFilter.filter).map((todo:Todo) => {
           return (
             <TodoListItem
               key={todo.id}
@@ -41,7 +58,8 @@ class Index extends React.Component <TodosProps, TodosState> {
 
 const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.todos.entities
+    propsTodos: state.todos.entities,
+    propsFilter: state.filter
   }
 };
 

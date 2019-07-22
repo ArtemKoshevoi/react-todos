@@ -29,7 +29,7 @@ export interface State {
 }
 
 const rootReducer = combineReducers({
-    filters: filtersReducer,
+    filter: filtersReducer,
     todos: todoReducer
 });
 

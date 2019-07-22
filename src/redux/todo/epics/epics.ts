@@ -23,7 +23,6 @@ export const getTodoEpic = (action$: any) =>
     mergeMap(async () => {
       const url = `http://localhost:3001/todos`;
       const payload = await fetch(url).then(res => res.json());
-      console.log(payload);
       return { type: SET_TODOS, payload };
     }),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),

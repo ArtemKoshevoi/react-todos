@@ -3,7 +3,7 @@ import {Action} from "redux";
 import initialState from "../state/initialState";
 
 export interface FilterInitialState {
-  filters: string
+  filter: string
 }
 
 export interface CustomAction extends Action {
@@ -14,9 +14,9 @@ const filtersReducer = (state: FilterInitialState = initialState, action: Custom
   const {type, payload} = action;
   switch (type) {
     case actionFilterTypes.TAB_SELECTED:
-      console.log(payload);
       return {
         ...state,
+        filter: payload.tabName
       };
   }
 

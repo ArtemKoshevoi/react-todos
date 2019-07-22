@@ -41,7 +41,6 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   };
 
   render() {
-    console.log(this.props.propsTodos);
     let checkedArr: any = [];
     let checkedStatus: boolean = true;
     const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {

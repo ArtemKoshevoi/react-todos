@@ -10,7 +10,6 @@ import * as actionTypes from "../../redux/todo/actions/actions";
 import * as actionFilterTypes from "../../redux/filters/actions/actions";
 import {connect} from "react-redux";
 import {btnStyle, flexContainer, itemsCounter, linkStyle} from "./style";
-import {TodoInitialState} from "../../redux/todo/state/initialState";
 import {State} from "../../redux/store";
 
 interface FooterProps {

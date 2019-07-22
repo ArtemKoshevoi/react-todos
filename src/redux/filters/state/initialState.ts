@@ -1,5 +1,5 @@
 const initialState = {
-  filters: 'all'
+  filter: 'all'
 };
 
 export default initialState

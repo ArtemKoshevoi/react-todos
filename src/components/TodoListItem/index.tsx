@@ -17,9 +17,11 @@ import {connect} from "react-redux";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "../AddTodo/style";
 import {State} from "../../redux/store";
+import {FilterInitialState} from "../../redux/filters/reducers/reducer";
 
 interface TodoListItemProps {
   propsTodos: Array<Todo>;
+  propsFilter: FilterInitialState;
   todo: any;
   onRemovedTodo(id: string): void;
   onCheckedTodo(id: string, checked: any): void;
@@ -105,7 +107,8 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
 
 const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.todos.entities
+    propsTodos: state.todos.entities,
+    propsFilter: state.filter
   }
 };
 
