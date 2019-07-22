@@ -11,6 +11,7 @@ import * as actionFilterTypes from "../../redux/filters/actions/actions";
 import {connect} from "react-redux";
 import {btnStyle, flexContainer, itemsCounter, linkStyle} from "./style";
 import {TodoInitialState} from "../../redux/todo/state/initialState";
+import {State} from "../../redux/store";
 
 interface FooterProps {
   propsTodos: Array<Todo>;
@@ -65,9 +66,9 @@ class footer extends React.Component<FooterProps> {
   }
 }
 
-const mapStateToProps = (state: TodoInitialState) => {
+const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.entities
+    propsTodos: state.todos.entities
   }
 };
 

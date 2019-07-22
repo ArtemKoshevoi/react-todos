@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "react-edit-inline": "^1.0.8",
+    "redux-devtools-extension": "^2.13.8",
     "tslint": "^5.18.0",
     "tslint-react": "^4.0.0"
   }

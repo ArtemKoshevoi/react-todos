@@ -9,6 +9,7 @@ import * as actionTypes from "../../redux/todo/actions/actions";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "./style";
 import {TodoInitialState} from "../../redux/todo/state/initialState";
+import {State} from "../../redux/store";
 
 interface AddTodoProps {
   propsTodos: any;
@@ -40,7 +41,7 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.props.propsTodos);
     let checkedArr: any = [];
     let checkedStatus: boolean = true;
     const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
@@ -73,9 +74,9 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   }
 }
 
-const mapStateToProps = (state: TodoInitialState) => {
+const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.entities
+    propsTodos: state.todos.entities
   }
 };
 

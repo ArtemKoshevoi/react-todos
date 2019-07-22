@@ -16,7 +16,7 @@ import * as actionTypes from "../../redux/todo/actions/actions";
 import {connect} from "react-redux";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "../AddTodo/style";
-import {TodoInitialState} from "../../redux/todo/state/initialState";
+import {State} from "../../redux/store";
 
 interface TodoListItemProps {
   propsTodos: Array<Todo>;
@@ -103,9 +103,9 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
   }
 }
 
-const mapStateToProps = (state: TodoInitialState) => {
+const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.entities
+    propsTodos: state.todos.entities
   }
 };
 

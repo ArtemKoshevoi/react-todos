@@ -12,7 +12,6 @@ export interface CustomAction extends Action {
 
 const filtersReducer = (state: FilterInitialState = initialState, action: CustomAction) => {
   const {type, payload} = action;
-  console.log(action);
   switch (type) {
     case actionFilterTypes.TAB_SELECTED:
       console.log(payload);

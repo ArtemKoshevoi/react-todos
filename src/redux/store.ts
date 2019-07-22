@@ -10,8 +10,8 @@ import {
 } from "./todo/epics/epics";
 import filtersReducer, {FilterInitialState} from "./filters/reducers/reducer";
 import todoReducer from "./todo/reducers/reducer";
-import {Todo} from "../interfaces";
 import {TodoInitialState} from "./todo/state/initialState";
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const rootEpic = combineEpics(
   getTodoEpic,
@@ -24,7 +24,7 @@ const rootEpic = combineEpics(
 );
 
 export interface State {
-  todo: TodoInitialState,
+  todos: TodoInitialState,
   filter: FilterInitialState,
 }
 
@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
 });
 
 const epicMiddleware = createEpicMiddleware();
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(epicMiddleware)));
 
 epicMiddleware.run(rootEpic);
 
