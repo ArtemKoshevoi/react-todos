@@ -67,7 +67,7 @@ export const checkedTodoEpic = (action$: any) =>
       {
         'Content-Type': 'application/json'
       }).pipe(
-        map(() => ({ type: CHECKED_TODO, payload: action.payload })),
+        map((res) => ({ type: CHECKED_TODO, payload: res.response })),
         catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message }))
     )));
 

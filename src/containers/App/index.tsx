@@ -39,7 +39,6 @@ class App extends React.Component<AppProps>{
   }
 }
 
-
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
     onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),

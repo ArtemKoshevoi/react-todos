@@ -9,6 +9,7 @@ import * as actionTypes from "../../redux/todo/actions/actions";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "./style";
 import {State} from "../../redux/store";
+import _ from 'lodash';
 
 interface AddTodoProps {
   propsTodos: any;
@@ -17,14 +18,19 @@ interface AddTodoProps {
 }
 
 interface AddTodoState {
-  value: string
+  value: string;
+  checkedArr: {id: string, checked: boolean}[];
+  checkedStatus: boolean;
 }
 
 class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   constructor(props:AddTodoProps) {
     super (props);
     this.state = {
-      value: ''
+      value: '',
+      checkedArr: [],
+      checkedStatus: true
+
     }
   }
 
@@ -39,7 +45,46 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
     }
   };
 
+  // componentDidUpdate(prevProps: Readonly<AddTodoProps>, prevState: Readonly<AddTodoState>, snapshot?: any): void {
+  //   // this.createCheckedArrHandler()
+  // }
+  //
+  // createCheckedArrHandler(): void {
+  //   const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
+  //     return todo.checked === true
+  //   });
+  //
+  //   _.forEach(this.props.propsTodos, (todo: Todo) => {
+  //     if (todo.checked === false && !isEveryCheckedTrue) {
+  //       this.setState(
+  //         {
+  //           checkedArr: [...this.state.checkedArr, todo.id],
+  //           checkedStatus: false
+  //         });
+  //     } else if (isEveryCheckedTrue) {
+  //       this.setState(
+  //         {
+  //           checkedArr: [...this.state.checkedArr, todo.id],
+  //           checkedStatus: true
+  //         });
+  //     }
+  //   });
+  // }
+  //   this.props.propsTodos.map((todo: Todo) => {
+  //     if (todo.checked === false && !isEveryCheckedTrue) {
+  //       this.setState(
+  //         {checkedArr: [...this.state.checkedArr, todo.id],
+  //                checkedStatus: false});
+  //     } else if (isEveryCheckedTrue) {
+  //       this.setState(
+  //         {checkedArr: [...this.state.checkedArr, todo.id],
+  //               checkedStatus: true});
+  //     }
+  //   });
+  // }
+
   render() {
+    // this.createCheckedArrHandler();
     let checkedArr: any = [];
     let checkedStatus: boolean = true;
     const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
@@ -48,10 +93,10 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
 
     this.props.propsTodos.map((todo: Todo) => {
       if (todo.checked === false && !isEveryCheckedTrue) {
-        checkedArr.push(todo.id);
+        checkedArr = [...checkedArr, todo.id];
         checkedStatus = false;
       } else if (isEveryCheckedTrue) {
-        checkedArr.push(todo.id);
+        checkedArr = [...checkedArr, todo.id];
         checkedStatus = true;
       }
     });
