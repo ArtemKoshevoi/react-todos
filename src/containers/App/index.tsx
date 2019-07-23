@@ -4,17 +4,14 @@ import Todos from '../../components/Todos'
 import Footer from '../../components/Footer'
 import {connect} from "react-redux";
 import * as actionTypes from '../../redux/todo/actions/actions'
-import {Todo} from "../../interfaces";
 import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import {Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {BrowserRouter, Route} from "react-router-dom";
-import {State} from '../../redux/store';
 
 interface AppProps {
-  propsTodos: Array<Todo>;
-  onAddedTodo(param: string): void;
+  onAddedTodo(name: string): void;
   onGetTodos(): void;
 }
 
@@ -42,11 +39,6 @@ class App extends React.Component<AppProps>{
   }
 }
 
-const mapStateToProps = (state: State) => {
-  return {
-    propsTodos: state.todos.entities
-  }
-};
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
@@ -55,6 +47,6 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
 
 
