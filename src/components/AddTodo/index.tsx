@@ -9,12 +9,12 @@ import * as actionTypes from "../../redux/todo/actions/actions";
 import {Todo} from "../../interfaces";
 import {textFieldStyle} from "./style";
 import {State} from "../../redux/store";
-import _ from 'lodash';
+import _ from "lodash"
 
 interface AddTodoProps {
   propsTodos: any;
-  todoAdd: (task: string, root?: any) => void;
   onChangeCheckedTodo(checkedArr: any, checkedStatus: boolean): void;
+  onAddedTodo(name: string): void;
 }
 
 interface AddTodoState {
@@ -30,17 +30,16 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
       value: '',
       checkedArr: [],
       checkedStatus: true
-
     }
   }
 
   todoChangedHandler(event: any): void {
-    this.setState({value: event.target.value})
+    this.setState({value: _.trimStart(event.target.value)})
   };
 
   enterInputHandler(event: any): void {
-    if (event.keyCode === 13) {
-      this.props.todoAdd(this.state.value);
+    if (event.keyCode === 13 && this.state.value) {
+      this.props.onAddedTodo(this.state.value);
       this.setState({value: ''})
     }
   };
@@ -125,6 +124,8 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
+    onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),
+
     onChangeCheckedTodo: (checkedArr: any, checkedStatus: boolean) =>
       dispatch({type: actionTypes.CHANGE_CHECKED_REQUEST_TODO, payload: {checkedArr, checkedStatus}})
   }
