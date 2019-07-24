@@ -13,7 +13,7 @@ import {
   PUT_TODO,
   SET_TODOS, UPDATE_REQUEST_TODO, UPDATE_TODO
 } from "../actions/actions";
-import {catchError, map, mergeMap} from "rxjs/operators";
+import {catchError, map, mergeMap, tap} from "rxjs/operators";
 import {from, of} from "rxjs";
 import {CustomAction} from "../reducers/reducer";
 import {ajax} from "rxjs/ajax";
@@ -24,7 +24,7 @@ export const getTodoEpic = (action$: any) =>
     ofType(GET_TODOS),
     mergeMap(() => ajax.getJSON('http://localhost:3001/todos').pipe(
       map(response => ({ type: SET_TODOS, payload: response })),
-      catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message }))
+      catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
     ))
   );
 
@@ -170,7 +170,7 @@ export const updateTodoEpic = (action$: any) =>
       {
         'Content-Type': 'application/json'
       }).pipe(
-        map(() => ({ type: UPDATE_TODO, payload: action.payload })),
+        map((res) => ({ type: UPDATE_TODO, payload: res.response })),
         catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message }))
       )
     ));
