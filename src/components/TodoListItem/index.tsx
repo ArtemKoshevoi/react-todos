@@ -14,13 +14,11 @@ import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import {connect} from "react-redux";
-import {Todo} from "../../interfaces";
 import {textFieldStyle} from "../AddTodo/style";
 import {State} from "../../redux/store";
 import {FilterInitialState} from "../../redux/filters/reducers/reducer";
 
 interface TodoListItemProps {
-  propsTodos: Array<Todo>;
   propsFilter: FilterInitialState;
   todo: any;
   onRemovedTodo(id: string): void;
@@ -69,15 +67,15 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
   };
 
   render(): React.ReactNode {
-    const todo = this.props.todo;
+    const {id, name, checked} = this.props.todo;
     return (
       <ListItem
         onDoubleClick={this.changeEditMode}
-        style={{textDecoration: todo.checked ? 'line-through' : 'none'} }>
+        style={{textDecoration: checked ? 'line-through' : 'none'} }>
         <ListItemIcon>
-          <Checkbox onChange={() => this.props.onCheckedTodo((todo.id as string), todo.checked)}
+          <Checkbox onChange={() => this.props.onCheckedTodo((id as string), checked)}
                     color='primary'
-                    checked={todo.checked}/>
+                    checked={checked}/>
         </ListItemIcon>
         <ListItemText primary={this.state.isInEditMode ?
           <Container
@@ -92,11 +90,11 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
             />
           </Container> :
           <Box component='label'>
-            {todo.name}
+            {name}
           </Box>}
         />
         <ListItemSecondaryAction>
-          <IconButton color='secondary' onClick={() => this.props.onRemovedTodo(todo.id as string)}>
+          <IconButton color='secondary' onClick={() => this.props.onRemovedTodo(id as string)}>
             <Clear />
           </IconButton>
         </ListItemSecondaryAction>
@@ -107,7 +105,6 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
 
 const mapStateToProps = (state: State) => {
   return {
-    propsTodos: state.todos.entities,
     propsFilter: state.filter
   }
 };
