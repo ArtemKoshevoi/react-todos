@@ -10,19 +10,17 @@ import {
   TextField
 } from "@material-ui/core";
 import {Clear} from "@material-ui/icons";
-import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import {connect} from "react-redux";
 import {textFieldStyle} from "../AddTodo/style";
-import {State} from "../../redux/store";
-import {FilterInitialState} from "../../redux/filters/reducers/reducer";
+import {CustomAction, FilterInitialState, State} from "../../interfaces";
 
 interface TodoListItemProps {
   propsFilter: FilterInitialState;
   todo: any;
   onRemovedTodo(id: string): void;
-  onCheckedTodo(id: string, checked: any): void;
+  onCheckedTodo(id: string, checked: boolean): void;
   onUpdateTodo(id: string, value: string): void;
 }
 
@@ -73,7 +71,7 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
         onDoubleClick={this.changeEditMode}
         style={{textDecoration: checked ? 'line-through' : 'none'} }>
         <ListItemIcon>
-          <Checkbox onChange={() => this.props.onCheckedTodo((id as string), checked)}
+          <Checkbox onChange={() => this.props.onCheckedTodo(id, checked)}
                     color='primary'
                     checked={checked}/>
         </ListItemIcon>
@@ -93,7 +91,7 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
           </Box>}
         />
         <ListItemSecondaryAction>
-          <IconButton color='secondary' onClick={() => this.props.onRemovedTodo(id as string)}>
+          <IconButton color='secondary' onClick={() => this.props.onRemovedTodo(id)}>
             <Clear />
           </IconButton>
         </ListItemSecondaryAction>
@@ -113,7 +111,7 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
     onRemovedTodo: (id: string) =>
       dispatch({type: actionTypes.DELETE_REQUEST_TODO, payload: {id}}),
 
-    onCheckedTodo: (id: string, checked: any) =>
+    onCheckedTodo: (id: string, checked: boolean) =>
       dispatch({type: actionTypes.CHECKED_REQUEST_TODO, payload: {id, checked}}),
 
     onUpdateTodo: (id: string, value: string) =>

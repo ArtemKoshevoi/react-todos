@@ -1,14 +1,12 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {FilterInitialState, Todo} from "../../interfaces";
+import {FilterInitialState, State, Todo} from "../../interfaces";
 import List from "@material-ui/core/List";
 import TodoListItem from "../TodoListItem/";
-import {State} from "../../redux/store";
 
 interface TodosProps {
   propsTodos: Array<Todo>;
   propsFilter: FilterInitialState;
-  todoAdd: (task: string, root?: any) => void;
 }
 
 const Index = (props: TodosProps) => {
@@ -39,14 +37,11 @@ const Index = (props: TodosProps) => {
     );
   };
 
-
 const mapStateToProps = (state: State) => {
   return {
     propsTodos: state.todos.entities,
     propsFilter: state.filter
   }
 };
-
-
 
 export default connect(mapStateToProps)(Index)

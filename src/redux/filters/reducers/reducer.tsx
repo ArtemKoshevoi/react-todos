@@ -1,14 +1,6 @@
 import * as actionFilterTypes from "../actions/actions";
-import {Action} from "redux";
 import initialState from "../state/initialState";
-
-export interface FilterInitialState {
-  filter: string
-}
-
-export interface CustomAction extends Action {
-  payload: any
-}
+import {CustomAction, FilterInitialState} from "../../../interfaces";
 
 const filtersReducer = (state: FilterInitialState = initialState, action: CustomAction) => {
   const {type, payload} = action;

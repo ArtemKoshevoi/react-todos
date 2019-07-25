@@ -8,9 +8,8 @@ import {
   deleteTodoEpic,
   getTodoEpic, updateTodoEpic
 } from "./todo/epics/epics";
-import filtersReducer, {FilterInitialState} from "./filters/reducers/reducer";
+import filtersReducer from "./filters/reducers/reducer";
 import todoReducer from "./todo/reducers/reducer";
-import {TodoInitialState} from "./todo/state/initialState";
 import {composeWithDevTools} from "redux-devtools-extension";
 
 const rootEpic = combineEpics(
@@ -22,11 +21,6 @@ const rootEpic = combineEpics(
   changeCheckedTodoEpic,
   updateTodoEpic,
 );
-
-export interface State {
-  todos: TodoInitialState,
-  filter: FilterInitialState,
-}
 
 const rootReducer = combineReducers({
     filter: filtersReducer,

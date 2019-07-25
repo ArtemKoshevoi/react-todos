@@ -13,12 +13,12 @@ import {
   PUT_TODO,
   SET_TODOS, UPDATE_REQUEST_TODO, UPDATE_TODO
 } from "../actions/actions";
-import {catchError, concatMap, map, mergeMap, tap} from "rxjs/operators";
+import {catchError, concatMap, map, mergeMap} from "rxjs/operators";
 import {from, of} from "rxjs";
-import {CustomAction} from "../reducers/reducer";
 import {ajax} from "rxjs/ajax";
 import {ajaxDelete, ajaxPatch, ajaxPost} from "rxjs/internal-compatibility";
 import {localUrl} from "../../../shared/consts";
+import {CustomAction} from "../../../interfaces";
 
 export const getTodoEpic = (action$: any) =>
   action$.pipe(
@@ -111,7 +111,7 @@ export const deleteCheckedTodoEpic = (action$: any) =>
     ofType(DELETE_CHECKED_REQUEST_TODO),
     mergeMap((action: CustomAction) => {
       return from(action.payload.checkedArr).pipe(
-        mergeMap(async (id: any) => {
+        concatMap(async (id: any) => {
           await fetch(localUrl + id, {method: 'DELETE'});
           return action.payload;
         }),

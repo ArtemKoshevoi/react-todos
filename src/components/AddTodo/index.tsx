@@ -2,17 +2,15 @@ import React from 'react'
 import { Paper, TextField } from '@material-ui/core'
 import IconButton from "@material-ui/core/IconButton";
 import {KeyboardArrowDown} from "@material-ui/icons";
-import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {connect} from "react-redux";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import {textFieldStyle} from "./style";
-import {State} from "../../redux/store";
-import {Todo} from "../../interfaces";
+import {CustomAction, State, Todo} from "../../interfaces";
 import _ from 'lodash'
 
 interface AddTodoProps {
-  propsTodos: any;
+  propsTodos: Array<Todo>;
   onChangeCheckedTodo(checkedArr: any, checkedStatus: boolean): void;
   onAddedTodo(name: string): void;
 }
@@ -45,7 +43,7 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
     }
   };
 
-  componentDidUpdate(prevProps: Readonly<AddTodoProps>, prevState: Readonly<AddTodoState>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<AddTodoProps>, prevState: Readonly<AddTodoState>): void {
     if (this.props.propsTodos === prevProps.propsTodos) {
       return
     }

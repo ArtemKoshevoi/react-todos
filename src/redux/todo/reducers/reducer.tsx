@@ -1,11 +1,8 @@
 import * as actionTypes from '../actions/actions'
-import {Action} from "redux";
 import initialState, {TodoInitialState} from "../state/initialState";
 import _ from "lodash"
+import {CustomAction, Todo} from "../../../interfaces";
 
-export interface CustomAction extends Action {
-  payload: any
-}
 
 const todoReducer = (state: TodoInitialState = initialState, action: CustomAction) => {
   const {type, payload} = action;
@@ -36,7 +33,7 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
     case actionTypes.CHECKED_TODO:
       return {
         ...state,
-        entities: state.entities.reduce((acc: any, value) =>
+        entities: state.entities.reduce((acc: Array<Todo>, value) =>
             [...acc, value.id === payload.id ? {...value, checked: !value.checked} : value]
           , [])
       };
@@ -51,7 +48,7 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
     case actionTypes.DELETE_CHECKED_TODO:
       return {
         ...state,
-        entities: state.entities.filter(todo => !(payload.checkedArr as string[]).includes(todo.id as string))
+        entities: state.entities.filter(todo => !(payload.checkedArr).includes(todo.id))
       };
 
     case actionTypes.CHANGE_CHECKED_TODO:
@@ -67,7 +64,7 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
     case actionTypes.UPDATE_TODO:
       return {
         ...state,
-        entities: state.entities.reduce((acc: any, value) =>
+        entities: state.entities.reduce((acc: Array<Todo>, value) =>
             [...acc, value.id === payload.id ? {...value, name: payload.name} : value]
     , [])
       };

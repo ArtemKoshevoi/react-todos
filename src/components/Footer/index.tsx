@@ -1,21 +1,19 @@
 import React from 'react';
-import {Todo} from "../../interfaces";
+import {CustomAction, State, Todo} from "../../interfaces";
 import {List, ListItem, ListItemText} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import * as actionFilterTypes from "../../redux/filters/actions/actions";
 import {connect} from "react-redux";
 import {btnStyle, flexContainer, itemsCounter, linkStyle} from "./style";
-import {State} from "../../redux/store";
 import _ from 'lodash'
 
 interface FooterProps {
   propsTodos: Array<Todo>;
-  onClearCheckedTodo(param: any): void;
+  onClearCheckedTodo(checkedArr: any): void;
   onTabSelected(tab: string): void;
 }
 

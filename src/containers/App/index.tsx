@@ -4,11 +4,11 @@ import Todos from '../../components/Todos'
 import Footer from '../../components/Footer'
 import {connect} from "react-redux";
 import * as actionTypes from '../../redux/todo/actions/actions'
-import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {Action} from "redux";
 import {Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {BrowserRouter, Route} from "react-router-dom";
+import {CustomAction} from "../../interfaces";
 
 interface AppProps {
   onGetTodos(): void;
