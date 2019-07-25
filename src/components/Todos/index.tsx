@@ -1,48 +1,33 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {Todo} from "../../interfaces";
+import {FilterInitialState, Todo} from "../../interfaces";
 import List from "@material-ui/core/List";
 import TodoListItem from "../TodoListItem/";
 import {State} from "../../redux/store";
 
 interface TodosProps {
   propsTodos: Array<Todo>;
-  propsFilter: any;
+  propsFilter: FilterInitialState;
   todoAdd: (task: string, root?: any) => void;
-  onUpdateTodo(id: string, value: any): void;
 }
 
-interface TodosState {
-  value: any,
-}
-
-class Index extends React.Component <TodosProps, TodosState> {
-  constructor(props: TodosProps) {
-    super(props);
-    this.state= {
-      value: '',
-    };
-    this.necessaryTodo = this.necessaryTodo.bind(this);
-  }
-
-  necessaryTodo = (allTodos: Array<Todo>, filter: string) => {
+const Index = (props: TodosProps) => {
+  const necessaryTodo = (allTodos: Array<Todo>, filter: string) => {
     if (filter === 'completed') {
       return allTodos.filter((todo: Todo) => {
-         return todo.checked
+        return todo.checked
       })
     } else if (filter === 'active') {
       return allTodos.filter((todo: Todo) => {
         return !todo.checked
       })
-      } else
-        return allTodos
-    };
+    } else
+      return allTodos
+  };
 
-
-  render(): React.ReactNode {
     return (
       <List>
-        {this.necessaryTodo(this.props.propsTodos, this.props.propsFilter.filter).map((todo:Todo) => {
+        {necessaryTodo(props.propsTodos, props.propsFilter.filter).map((todo:Todo) => {
           return (
             <TodoListItem
               key={todo.id}
@@ -52,8 +37,8 @@ class Index extends React.Component <TodosProps, TodosState> {
         })}
       </List>
     );
-  }
-}
+  };
+
 
 const mapStateToProps = (state: State) => {
   return {
