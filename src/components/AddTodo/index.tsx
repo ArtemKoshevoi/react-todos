@@ -6,10 +6,10 @@ import {CustomAction} from "../../redux/todo/reducers/reducer";
 import {connect} from "react-redux";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
-import {Todo} from "../../interfaces";
 import {textFieldStyle} from "./style";
 import {State} from "../../redux/store";
-import _ from "lodash"
+import {Todo} from "../../interfaces";
+import _ from 'lodash'
 
 interface AddTodoProps {
   propsTodos: any;
@@ -19,7 +19,7 @@ interface AddTodoProps {
 
 interface AddTodoState {
   value: string;
-  checkedArr: {id: string, checked: boolean}[];
+  checkedArr: any;
   checkedStatus: boolean;
 }
 
@@ -34,75 +34,44 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
   }
 
   todoChangedHandler(event: any): void {
-    this.setState({value: _.trimStart(event.target.value)})
+    this.setState({value: event.target.value})
   };
 
   enterInputHandler(event: any): void {
-    if (event.keyCode === 13 && this.state.value) {
-      this.props.onAddedTodo(this.state.value);
+    const val = this.state.value.trim();
+    if (event.keyCode === 13 && val) {
+      this.props.onAddedTodo(val);
       this.setState({value: ''})
     }
   };
 
-  // componentDidUpdate(prevProps: Readonly<AddTodoProps>, prevState: Readonly<AddTodoState>, snapshot?: any): void {
-  //   // this.createCheckedArrHandler()
-  // }
-  //
-  // createCheckedArrHandler(): void {
-  //   const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
-  //     return todo.checked === true
-  //   });
-  //
-  //   _.forEach(this.props.propsTodos, (todo: Todo) => {
-  //     if (todo.checked === false && !isEveryCheckedTrue) {
-  //       this.setState(
-  //         {
-  //           checkedArr: [...this.state.checkedArr, todo.id],
-  //           checkedStatus: false
-  //         });
-  //     } else if (isEveryCheckedTrue) {
-  //       this.setState(
-  //         {
-  //           checkedArr: [...this.state.checkedArr, todo.id],
-  //           checkedStatus: true
-  //         });
-  //     }
-  //   });
-  // }
-  //   this.props.propsTodos.map((todo: Todo) => {
-  //     if (todo.checked === false && !isEveryCheckedTrue) {
-  //       this.setState(
-  //         {checkedArr: [...this.state.checkedArr, todo.id],
-  //                checkedStatus: false});
-  //     } else if (isEveryCheckedTrue) {
-  //       this.setState(
-  //         {checkedArr: [...this.state.checkedArr, todo.id],
-  //               checkedStatus: true});
-  //     }
-  //   });
-  // }
-
-  render() {
-    // this.createCheckedArrHandler();
-    let checkedArr: any = [];
-    let checkedStatus: boolean = true;
+  componentDidUpdate(prevProps: Readonly<AddTodoProps>, prevState: Readonly<AddTodoState>, snapshot?: any): void {
+    if (this.props.propsTodos === prevProps.propsTodos) {
+      return
+    }
     const isEveryCheckedTrue = this.props.propsTodos && this.props.propsTodos.every((todo: Todo) => {
-      return todo.checked === true
-    });
+          return todo.checked
+        });
 
-    this.props.propsTodos.map((todo: Todo) => {
+    let localCheckedArr: any = [];
+    let localCheckedStatus: boolean = true;
+    _.forEach(this.props.propsTodos, (todo: Todo) => {
       if (todo.checked === false && !isEveryCheckedTrue) {
-        checkedArr = [...checkedArr, todo.id];
-        checkedStatus = false;
+        localCheckedArr = [...localCheckedArr, todo.id];
+        localCheckedStatus = false;
       } else if (isEveryCheckedTrue) {
-        checkedArr = [...checkedArr, todo.id];
-        checkedStatus = true;
+        localCheckedArr = [...localCheckedArr, todo.id];
+        localCheckedStatus = true;
       }
     });
+    this.setState({checkedArr: [...localCheckedArr]});
+    this.setState({checkedStatus: localCheckedStatus});
+  }
 
+  render() {
     return (
       <Paper style={textFieldStyle}>
-        <IconButton onClick={() => this.props.onChangeCheckedTodo(checkedArr, checkedStatus)}>
+        <IconButton onClick={() => this.props.onChangeCheckedTodo(this.state.checkedArr, this.state.checkedStatus)}>
           <KeyboardArrowDown />
         </IconButton>
         <TextField value={this.state.value}

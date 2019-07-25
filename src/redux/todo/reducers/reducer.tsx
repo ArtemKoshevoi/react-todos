@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actions'
 import {Action} from "redux";
 import initialState, {TodoInitialState} from "../state/initialState";
+import _ from "lodash"
 
 export interface CustomAction extends Action {
   payload: any
@@ -40,6 +41,13 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
           , [])
       };
 
+      // return {
+      // ...state,
+      //   entities:_.sortBy(_.unionWith([payload], state.entities, (a: any, b: any) => {
+      //     return a.id === b.id
+      //   }), ['name'])
+      // };
+
     case actionTypes.DELETE_CHECKED_TODO:
       return {
         ...state,
@@ -60,7 +68,7 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
       return {
         ...state,
         entities: state.entities.reduce((acc: any, value) =>
-            [...acc, value.id === payload.id ? {...value, name: payload.value} : value]
+            [...acc, value.id === payload.id ? {...value, name: payload.name} : value]
     , [])
       };
 

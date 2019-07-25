@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import {BrowserRouter, Route} from "react-router-dom";
 
 interface AppProps {
-  onAddedTodo(name: string): void;
   onGetTodos(): void;
 }
 
@@ -27,7 +26,7 @@ class App extends React.Component<AppProps>{
         <Container maxWidth="sm">
           <Typography component="h1" variant="h2" color='error' gutterBottom={true} align='center'>todos</Typography>
           <div>
-            <AddTodo todoAdd={this.props.onAddedTodo}/>
+            <AddTodo />
             <Route path='/' exact component={Todos}/>
             <Route path='/active' component={Todos}/>
             <Route path='/completed' component={Todos}/>
@@ -41,7 +40,6 @@ class App extends React.Component<AppProps>{
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
-    onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),
     onGetTodos: () => dispatch({type: actionTypes.GET_TODOS}),
   }
 };

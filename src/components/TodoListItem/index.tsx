@@ -79,7 +79,6 @@ class TodoListItem extends React.Component<TodoListItemProps, TodoListItemState>
         </ListItemIcon>
         <ListItemText primary={this.state.isInEditMode ?
           <Container
-
             style={textFieldStyle}>
             <TextField
               type='text'

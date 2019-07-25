@@ -11,6 +11,7 @@ import * as actionFilterTypes from "../../redux/filters/actions/actions";
 import {connect} from "react-redux";
 import {btnStyle, flexContainer, itemsCounter, linkStyle} from "./style";
 import {State} from "../../redux/store";
+import _ from 'lodash'
 
 interface FooterProps {
   propsTodos: Array<Todo>;
@@ -18,29 +19,44 @@ interface FooterProps {
   onTabSelected(tab: string): void;
 }
 
-class footer extends React.Component<FooterProps> {
+interface FooterState {
+  counter: number,
+  checkedArr: any,
+}
+
+class footer extends React.Component<FooterProps, FooterState> {
+  constructor(props: FooterProps) {
+    super(props);
+    this.state = {
+      counter: 0,
+      checkedArr: [],
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<FooterProps>, prevState: Readonly<FooterState>, snapshot?: any): void {
+    if (this.props.propsTodos === prevProps.propsTodos) {
+      return;
+    }
+    let localCounter: number = 0;
+    let localCheckedArr: any = [];
+      _.forEach(this.props.propsTodos, (todo: Todo): void => {
+        if (todo.checked) {
+          localCheckedArr.push(todo.id);
+        } else {
+          localCounter += 1
+        }
+      });
+    this.setState({counter: localCounter});
+    this.setState({checkedArr: [...localCheckedArr] });
+  }
+
   render(): React.ReactNode {
-    let counter: number = 0;
-    this.props.propsTodos.map((todo: Todo) => {
-      if (todo.checked === false) {
-        counter += 1;
-      }
-    });
-
-    let counterText: string = counter === 1 ? 'item' : 'items';
-
-    let checkedArr: any = [];
-
-    this.props.propsTodos.map((todo: Todo) => {
-      if (todo.checked === true) {
-        checkedArr.push(todo.id);
-      }
-    });
-
     return (
       <Container>
         <List component='nav' style={flexContainer}>
-          <Box component='span' style={itemsCounter}>{counter} {counterText} left</Box>
+          <Box component='span' style={itemsCounter}>
+            {this.state.counter} {this.state.counter === 1 ? 'item' : 'items'} left
+          </Box>
           <Link style={linkStyle} to='/'>
             <ListItem button onClick={() => this.props.onTabSelected('all')}>
               <ListItemText primary='All'/>
@@ -56,7 +72,9 @@ class footer extends React.Component<FooterProps> {
               <ListItemText primary='Completed'/>
             </ListItem>
           </Link>
-          <ListItem button={true} style={btnStyle} onClick={() => this.props.onClearCheckedTodo(checkedArr)}>
+          <ListItem button={true}
+                    disabled={this.state.checkedArr.length < 1}
+                    style={btnStyle} onClick={() => this.props.onClearCheckedTodo(this.state.checkedArr)}>
             Clear completed
           </ListItem>
         </List>
