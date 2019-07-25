@@ -1,4 +1,6 @@
-export const flexContainer: object = {
+import {CSSProperties} from "react";
+
+export const flexContainer: CSSProperties = {
   display: 'flex',
   width: '100%',
   alignItems: 'center',
@@ -7,17 +9,17 @@ export const flexContainer: object = {
   fontSize: '14px',
 };
 
-export const linkStyle: object = {
+export const linkStyle: CSSProperties = {
   textDecoration: 'none',
   fontSize: '14px',
   color: 'black',
 };
 
-export const btnStyle: object = {
+export const btnStyle: CSSProperties = {
   textAlign: 'center'
 };
 
-export const itemsCounter: object = {
+export const itemsCounter: CSSProperties = {
   width: '100%',
   maxWidth: '70px',
   marginRight: '25px',

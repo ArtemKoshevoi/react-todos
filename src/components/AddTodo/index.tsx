@@ -11,13 +11,13 @@ import _ from 'lodash'
 
 interface AddTodoProps {
   propsTodos: Array<Todo>;
-  onChangeCheckedTodo(checkedArr: any, checkedStatus: boolean): void;
+  onChangeCheckedTodo(checkedArr: string[], checkedStatus: boolean): void;
   onAddedTodo(name: string): void;
 }
 
 interface AddTodoState {
   value: string;
-  checkedArr: any;
+  checkedArr: string[];
   checkedStatus: boolean;
 }
 
@@ -51,7 +51,7 @@ class AddTodo extends React.Component<AddTodoProps, AddTodoState>{
           return todo.checked
         });
 
-    let localCheckedArr: any = [];
+    let localCheckedArr: string[] = [];
     let localCheckedStatus: boolean = true;
     _.forEach(this.props.propsTodos, (todo: Todo) => {
       if (todo.checked === false && !isEveryCheckedTrue) {
@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) =>
   return {
     onAddedTodo: (name: string) => dispatch({type: actionTypes.PUT_TODO, payload: {name}}),
 
-    onChangeCheckedTodo: (checkedArr: any, checkedStatus: boolean) =>
+    onChangeCheckedTodo: (checkedArr: string[], checkedStatus: boolean) =>
       dispatch({type: actionTypes.CHANGE_CHECKED_REQUEST_TODO, payload: {checkedArr, checkedStatus}})
   }
 };

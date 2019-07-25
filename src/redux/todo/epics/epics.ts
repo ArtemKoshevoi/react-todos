@@ -18,7 +18,7 @@ import {from, of} from "rxjs";
 import {ajax} from "rxjs/ajax";
 import {ajaxDelete, ajaxPatch, ajaxPost} from "rxjs/internal-compatibility";
 import {localUrl} from "../../../shared/consts";
-import {CustomAction} from "../../../interfaces";
+import {CustomAction, Todo} from "../../../interfaces";
 
 export const getTodoEpic = (action$: any) =>
   action$.pipe(
@@ -91,20 +91,6 @@ export const changeCheckedTodoEpic = (action$: any) =>
     map((payload) => ({ type: CHANGE_CHECKED_TODO, payload })),
     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message })),
     );
-
-// export const deleteCheckedTodoEpic = (action$: any) =>
-//   action$.pipe(
-//     ofType(DELETE_CHECKED_REQUEST_TODO),
-//     mergeMap((action: CustomAction) => {
-//       return from(action.payload.checkedArr).pipe(
-//         concatMap((id: any) => ajaxDelete(
-//           localUrl + id,
-//         ))
-//       )
-//     }),
-//     map((res) => ({type: DELETE_CHECKED_TODO, payload: res})),
-//     catchError(err => of({ type: GET_TODOS_ERROR, payload: err.message }))
-//   );
 
 export const deleteCheckedTodoEpic = (action$: any) =>
   action$.pipe(

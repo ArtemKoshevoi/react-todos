@@ -13,12 +13,12 @@ import {Clear} from "@material-ui/icons";
 import {Action} from "redux";
 import * as actionTypes from "../../redux/todo/actions/actions";
 import {connect} from "react-redux";
-import {textFieldStyle} from "../AddTodo/style";
-import {CustomAction, FilterInitialState, State} from "../../interfaces";
+import {textFieldStyle} from "./style";
+import {CustomAction, FilterInitialState, State, Todo} from "../../interfaces";
 
 interface TodoListItemProps {
   propsFilter: FilterInitialState;
-  todo: any;
+  todo: Todo;
   onRemovedTodo(id: string): void;
   onCheckedTodo(id: string, checked: boolean): void;
   onUpdateTodo(id: string, value: string): void;

@@ -34,16 +34,8 @@ const todoReducer = (state: TodoInitialState = initialState, action: CustomActio
       return {
         ...state,
         entities: state.entities.reduce((acc: Array<Todo>, value) =>
-            [...acc, value.id === payload.id ? {...value, checked: !value.checked} : value]
-          , [])
+            [...acc, value.id === payload.id ? {...value, checked: !value.checked} : value], [])
       };
-
-      // return {
-      // ...state,
-      //   entities:_.sortBy(_.unionWith([payload], state.entities, (a: any, b: any) => {
-      //     return a.id === b.id
-      //   }), ['name'])
-      // };
 
     case actionTypes.DELETE_CHECKED_TODO:
       return {

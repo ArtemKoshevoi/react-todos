@@ -13,13 +13,13 @@ import _ from 'lodash'
 
 interface FooterProps {
   propsTodos: Array<Todo>;
-  onClearCheckedTodo(checkedArr: any): void;
+  onClearCheckedTodo(checkedArr: string[]): void;
   onTabSelected(tab: string): void;
 }
 
 interface FooterState {
   counter: number,
-  checkedArr: any,
+  checkedArr: string[],
 }
 
 class footer extends React.Component<FooterProps, FooterState> {
@@ -31,12 +31,12 @@ class footer extends React.Component<FooterProps, FooterState> {
     }
   }
 
-  componentDidUpdate(prevProps: Readonly<FooterProps>, prevState: Readonly<FooterState>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<FooterProps>, prevState: Readonly<FooterState>): void {
     if (this.props.propsTodos === prevProps.propsTodos) {
       return;
     }
     let localCounter: number = 0;
-    let localCheckedArr: any = [];
+    let localCheckedArr: string[] = [];
       _.forEach(this.props.propsTodos, (todo: Todo): void => {
         if (todo.checked) {
           localCheckedArr.push(todo.id);
@@ -89,7 +89,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
   return {
-    onClearCheckedTodo: (checkedArr: any) =>
+    onClearCheckedTodo: (checkedArr: string[]) =>
       dispatch({type: actionTypes.DELETE_CHECKED_REQUEST_TODO, payload: {checkedArr}}),
 
     onTabSelected: (tabName: string) =>
