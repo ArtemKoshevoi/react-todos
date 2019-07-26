@@ -9,6 +9,7 @@ import {Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {BrowserRouter, Route} from "react-router-dom";
 import {CustomAction} from "../../interfaces";
+import WithGetTodos from "../../hoc/withGetTodos";
 
 interface AppProps {
   onGetTodos(): void;
@@ -17,7 +18,7 @@ interface AppProps {
 class App extends React.Component<AppProps>{
   constructor(props: AppProps) {
     super(props);
-    props.onGetTodos();
+    // props.onGetTodos();
   }
 
   render(): React.ReactNode {
@@ -38,12 +39,12 @@ class App extends React.Component<AppProps>{
   }
 }
 
-const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
-  return {
-    onGetTodos: () => dispatch({type: actionTypes.GET_TODOS}),
-  }
-};
+// const mapDispatchToProps = (dispatch: (param: CustomAction | Action) => void) => {
+//   return {
+//     onGetTodos: () => dispatch({type: actionTypes.GET_TODOS}),
+//   }
+// };
 
-export default connect(null, mapDispatchToProps)(App);
+export default WithGetTodos(App);
 
 
