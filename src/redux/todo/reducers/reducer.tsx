@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actions'
 import initialState, {TodoInitialState} from "../state/initialState";
-import _ from "lodash"
 import {CustomAction, Todo} from "../../../interfaces";
 
 

@@ -1,16 +1,6 @@
 {
   "todos": [
     {
-      "id": 0.32884420833800054,
-      "name": "sad",
-      "checked": true
-    },
-    {
-      "id": 0.49965581232958467,
-      "name": "asdas",
-      "checked": false
-    },
-    {
       "id": 0.6158044943525789,
       "name": "ed",
       "checked": false
@@ -18,6 +8,11 @@
     {
       "id": 0.8184947116889867,
       "name": "edf",
+      "checked": false
+    },
+    {
+      "id": 0.6137644458590663,
+      "name": "asd",
       "checked": false
     }
   ]
