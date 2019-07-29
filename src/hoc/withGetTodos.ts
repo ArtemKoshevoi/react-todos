@@ -3,7 +3,6 @@ import {CustomAction} from "../interfaces";
 import {Action} from "redux";
 import * as actionTypes from "../redux/todo/actions/actions";
 import {connect} from "react-redux";
-import {extends} from "tslint/lib/configs/latest";
 
 interface WithGetTodosProps {
   onGetTodos(): void;
